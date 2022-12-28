@@ -16,6 +16,8 @@ const drawerWidth = 240;
 
 function App() {
   const [open, setOpen] = React.useState(false);
+
+  //used to make the drawer responsive
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("sm"));
 
