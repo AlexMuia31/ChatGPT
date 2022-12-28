@@ -5,12 +5,22 @@ import {
   Drawer,
   IconButton,
   Toolbar,
+  InputAdornment,
+  Avatar,
   Typography,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import { CustomButton } from "./components/CustomeButton";
+import AddIcon from "@mui/icons-material/Add";
+import SendIcon from "@mui/icons-material/Send";
+import { CustomTextField } from "./components/CustomTextfield";
 
 const drawerWidth = 240;
 
@@ -43,13 +53,14 @@ function App() {
             boxSizing: "border-box",
             width: drawerWidth,
             background: "#202123",
+            padding: "12px",
           },
         }}
         open={open}
         onClose={handleDrawerToggle}
         anchor="left"
       >
-        test
+        <CustomButton startIcon={<AddIcon />}>New Chat</CustomButton>
       </Drawer>
 
       <Box
@@ -77,35 +88,78 @@ function App() {
           </Toolbar>
         </AppBar>
         <Toolbar sx={{ display: { xs: "flex", sm: "none" } }} />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-          dolor purus non enim praesent elementum facilisis leo vel. Risus at
-          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-          quisque non tellus. Convallis convallis tellus id interdum velit
-          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-          faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-          elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-          sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-          mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-          risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-          purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-          tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique
-          sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        <List sx={{ width: "100%", maxWidth: 360, bgcolor: "inherit" }}>
+          <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar />
+            </ListItemAvatar>
+            <ListItemText
+              primary={
+                <>
+                  <Typography
+                    sx={{ display: "inline" }}
+                    component="span"
+                    variant="body2"
+                  >
+                    hello world
+                  </Typography>
+                </>
+              }
+            />
+          </ListItem>
+          <ListItem alignItems="flex-start" sx={{ bgcolor: "#444654" }}>
+            <ListItemAvatar>
+              <Avatar />
+            </ListItemAvatar>
+            <ListItemText
+              primary={
+                <>
+                  <Typography
+                    sx={{ display: "inline" }}
+                    component="span"
+                    variant="body2"
+                  >
+                    chat reply
+                  </Typography>
+                </>
+              }
+            />
+          </ListItem>
+        </List>
+        <Box
+          sx={{
+            padding: "24px",
+            bottom: 0,
+            position: "absolute",
+            left: 0,
+            right: 0,
+          }}
+        >
+          <CustomTextField
+            fullWidth
+            inputProps={{
+              sx: {
+                "&::placeholder": {
+                  color: "#fff",
+                },
+                color: "#fff",
+              },
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment>
+                  <IconButton type="submit">
+                    <SendIcon sx={{ color: "gray" }} />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              width: { sm: `calc(100% - ${drawerWidth}px)` },
+              ml: { sm: `${drawerWidth}px` },
+            }}
+          />
+        </Box>
       </Box>
     </Box>
   );
