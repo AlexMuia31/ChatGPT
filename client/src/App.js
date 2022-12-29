@@ -71,6 +71,7 @@ function App() {
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          position: "relative",
         }}
       >
         <AppBar
@@ -88,7 +89,7 @@ function App() {
           </Toolbar>
         </AppBar>
         <Toolbar sx={{ display: { xs: "flex", sm: "none" } }} />
-        <List sx={{ width: "100%", maxWidth: 360, bgcolor: "inherit" }}>
+        <List sx={{ width: "100%", bgcolor: "inherit" }}>
           <ListItem alignItems="flex-start">
             <ListItemAvatar>
               <Avatar />
@@ -126,13 +127,31 @@ function App() {
             />
           </ListItem>
         </List>
+        <Typography paragraph>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
+          dolor purus non enim praesent elementum facilisis leo vel. Risus at
+          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
+          quisque non tellus. Convallis convallis tellus id interdum velit
+          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
+          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
+          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
+          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
+          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
+          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
+          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
+          faucibus et molestie ac.
+        </Typography>
+
         <Box
           sx={{
-            padding: "24px",
-            bottom: 0,
-            position: "absolute",
-            left: 0,
+            padding: "12px",
+            position: "fixed",
             right: 0,
+            left: 0,
+            bottom: 0,
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
           }}
         >
           <CustomTextField
@@ -154,10 +173,7 @@ function App() {
                 </InputAdornment>
               ),
             }}
-            sx={{
-              width: { sm: `calc(100% - ${drawerWidth}px)` },
-              ml: { sm: `${drawerWidth}px` },
-            }}
+            sx={{}}
           />
         </Box>
       </Box>
