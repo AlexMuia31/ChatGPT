@@ -21,11 +21,29 @@ import { CustomButton } from "./components/CustomeButton";
 import AddIcon from "@mui/icons-material/Add";
 import SendIcon from "@mui/icons-material/Send";
 import { CustomTextField } from "./components/CustomTextfield";
+import chat from "../src/assets/chat.svg";
 
 const drawerWidth = 240;
 
 function App() {
   const [open, setOpen] = React.useState(false);
+
+  //input states
+  const [input, setInput] = React.useState("");
+  const [chatLog, setChatLog] = React.useState([
+    {
+      user: "gpt",
+      message: "Lets do this",
+    },
+    {
+      user: "me",
+      message: "test",
+    },
+    {
+      user: "gpt",
+      message: "Lets do this",
+    },
+  ]);
 
   //used to make the drawer responsive
   const theme = useTheme();
@@ -34,6 +52,12 @@ function App() {
   const handleDrawerToggle = () => {
     setOpen(!open);
   };
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setChatLog([...chatLog, { user: "me", message: `${input}` }]);
+    setInput("");
+  }
 
   return (
     <Box
@@ -90,58 +114,31 @@ function App() {
         </AppBar>
         <Toolbar sx={{ display: { xs: "flex", sm: "none" } }} />
         <List sx={{ width: "100%", bgcolor: "inherit" }}>
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar />
-            </ListItemAvatar>
-            <ListItemText
-              primary={
-                <>
-                  <Typography
-                    sx={{ display: "inline" }}
-                    component="span"
-                    variant="body2"
-                  >
-                    hello world
-                  </Typography>
-                </>
-              }
-            />
-          </ListItem>
-          <ListItem alignItems="flex-start" sx={{ bgcolor: "#444654" }}>
-            <ListItemAvatar>
-              <Avatar />
-            </ListItemAvatar>
-            <ListItemText
-              primary={
-                <>
-                  <Typography
-                    sx={{ display: "inline" }}
-                    component="span"
-                    variant="body2"
-                  >
-                    chat reply
-                  </Typography>
-                </>
-              }
-            />
-          </ListItem>
+          {chatLog.map((message, index) => (
+            <ListItem
+              key={index}
+              alignItems="flex-start"
+              sx={{ bgcolor: `${message.user === "gpt" && "#444654"}` }}
+            >
+              <ListItemAvatar>
+                <Avatar src={message.user === "gpt" && chat} />
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <>
+                    <Typography
+                      sx={{ display: "inline" }}
+                      component="span"
+                      variant="body2"
+                    >
+                      {message.message}
+                    </Typography>
+                  </>
+                }
+              />
+            </ListItem>
+          ))}
         </List>
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-          dolor purus non enim praesent elementum facilisis leo vel. Risus at
-          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-          quisque non tellus. Convallis convallis tellus id interdum velit
-          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-          faucibus et molestie ac.
-        </Typography>
 
         <Box
           sx={{
@@ -153,8 +150,12 @@ function App() {
             width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
           }}
+          component="form"
+          onSubmit={handleSubmit}
         >
           <CustomTextField
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
             fullWidth
             inputProps={{
               sx: {
