@@ -12,6 +12,7 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import React from "react";
@@ -32,16 +33,8 @@ function App() {
   const [input, setInput] = React.useState("");
   const [chatLog, setChatLog] = React.useState([
     {
-      user: "gpt",
-      message: "Lets do this",
-    },
-    {
-      user: "me",
-      message: "test",
-    },
-    {
-      user: "gpt",
-      message: "Lets do this",
+      user: "",
+      message: "",
     },
   ]);
 
@@ -55,22 +48,32 @@ function App() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setChatLog([...chatLog, { user: "me", message: `${input}` }]);
+    let newChatLog = [...chatLog, { user: "me", message: `${input}` }];
     setInput("");
+    setChatLog(newChatLog);
     // fetching data from the backend
+    const messages = newChatLog.map((message) => message.message).join("\n");
     const response = await fetch("http://localhost:3080", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        message: chatLog.map((message) => message.message).join(""),
+        message: messages,
       }),
     });
     const data = await response.json();
-    setChatLog([...chatLog, { user: "gpt", message: `${data.message}` }]);
+    await setChatLog([
+      ...newChatLog,
+      { user: "gpt", message: `${data.message}` },
+    ]);
     console.log(data.message);
   }
+  // clear the conversation
+
+  const clearConvo = () => {
+    setChatLog([]);
+  };
 
   return (
     <Box
@@ -97,7 +100,31 @@ function App() {
         onClose={handleDrawerToggle}
         anchor="left"
       >
-        <CustomButton startIcon={<AddIcon />}>New Chat</CustomButton>
+        <CustomButton startIcon={<AddIcon />} onClick={clearConvo}>
+          New Chat
+        </CustomButton>
+
+        <CustomTextField
+          sx={{
+            mt: "50px",
+          }}
+          helperText="select a model for your question"
+          FormHelperTextProps={{ style: { color: "#fff" } }}
+          select
+          SelectProps={{
+            MenuProps: {
+              PaperProps: {
+                sx: {
+                  backgroundColor: "#343541",
+                  color: "white",
+                },
+              },
+            },
+          }}
+        >
+          <MenuItem>test</MenuItem>
+          <MenuItem>test</MenuItem>
+        </CustomTextField>
       </Drawer>
 
       <Box
@@ -126,7 +153,13 @@ function App() {
           </Toolbar>
         </AppBar>
         <Toolbar sx={{ display: { xs: "flex", sm: "none" } }} />
-        <List sx={{ width: "100%", bgcolor: "inherit" }}>
+        <List
+          sx={{
+            width: "100%",
+            bgcolor: "inherit",
+            paddingBottom: { xs: "20%", sm: "10%" },
+          }}
+        >
           {chatLog.map((message, index) => (
             <ListItem
               key={index}
